@@ -1,0 +1,61 @@
+<section class="missions-wrapper">
+  <header class="missions-header">
+    <h2>Explore SpaceX Launches</h2>
+    <p class="subtitle">Browse past missions and learn more about rockets, videos, and Wikipedia links.</p>
+  </header>
+
+  <div class="filter-bar">
+    <input
+      type="text"
+      [ngModel]="yearFilter()"
+      (ngModelChange)="yearFilter.set($event)"
+      placeholder="Filter by launch year"
+    >
+  </div>
+
+  @if (filteredMissions().length === 0) {
+    <p class="no-data">No missions found for this year.</p>
+  }
+
+  @for (mission of filteredMissions(); track mission.flight_number) {
+    <div class="mission-card">
+
+      <div class="mission-header">
+        <h3>{{ mission.mission_name }}</h3>
+        <span class="year">{{ mission.launch_year }}</span>
+      </div>
+
+      @if (mission.links?.mission_patch_small) {
+        <img
+          [src]="mission.links.mission_patch_small"
+          alt="{{ mission.mission_name }} patch"
+          class="mission-patch"
+        >
+      } @else {
+        <div class="no-image">No Image</div>
+      }
+
+      @if (mission.details) {
+        <p class="details">{{ mission.details }}</p>
+      } @else {
+        <p class="details muted">Details not available</p>
+      }
+
+      <p><strong>Rocket:</strong> {{ mission.rocket?.rocket_name ?? 'Unknown' }}</p>
+
+      <div class="links">
+        @if (mission.links?.wikipedia) {
+          <a [href]="mission.links.wikipedia" target="_blank">Wikipedia</a>
+        } @else {
+          <span class="muted">Wikipedia not available</span>
+        }
+
+        @if (mission.links?.video_link) {
+          <a [href]="mission.links.video_link" target="_blank">Watch Video</a>
+        } @else {
+          <span class="muted">Video not available</span>
+        }
+      </div>
+    </div>
+  }
+</section>
