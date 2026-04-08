@@ -1,10 +1,12 @@
 {
   "builds": [
     {
-      "src": "dist/s101535819-lab-test2-comp3133/**",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/s101535819-lab-test2-comp3133"
+      }
     }
   ],
-  "routes": [{ "src": "/(.*)", "dest": "/index.html" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
-vercel --prod
